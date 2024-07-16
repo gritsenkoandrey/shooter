@@ -37,7 +37,7 @@ namespace Gameplay.Systems
         {
             bullet.transform.Translate(bullet.Direction * bullet.Speed * Time.deltaTime);
 
-            if (_screenBounds.x < bullet.Position.x || _screenBounds.y < bullet.Position.y)
+            if (_screenBounds.x < Mathf.Abs(bullet.Position.x) || _screenBounds.y < Mathf.Abs(bullet.Position.y))
             {
                 Object.Destroy(bullet.gameObject);
             }
