@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c6be961321448aabdf16e8bab8ac92, type: 3}
+  m_Name: GameData
+  m_EditorClassIdentifier: 
+  PlayerFireRadius: 50
+  PlayerFireInterval: 0.2
+  PlayerBulletSpeed: 50
+  PlayerSpeed: 20
+  PlayerFireDamage: 1
+  PlayerHealth: 5
+  RequiredKills:
+    Min: 15
+    Max: 20
+  EnemySpawnDelay:
+    Min: 1
+    Max: 2.5
+  EnemySpeed:
+    Min: 2.5
+    Max: 5
+  EnemyHealth: 5
