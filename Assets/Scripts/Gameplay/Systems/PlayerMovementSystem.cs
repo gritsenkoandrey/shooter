@@ -41,16 +41,15 @@ namespace Gameplay.Systems
 
         private void Move(Player player)
         {
-            Vector3 move = new Vector3(_inputService.Horizontal, _inputService.Vertical, 0f);
-
-            player.transform.Translate(move * player.Speed * Time.deltaTime);
-
-            Vector3 next = player.Position;
-
-            next.x = Mathf.Clamp(next.x, -_screenBounds.x + player.CollisionRadius, _screenBounds.x - player.CollisionRadius);
-            next.y = Mathf.Clamp(next.y, -_screenBounds.y + player.CollisionRadius, _levelService.Finish - player.CollisionRadius);
-
-            player.transform.position = next;
+            Vector3 input = new Vector3(_inputService.Horizontal, _inputService.Vertical, 0f);
+            Vector3 position = player.Position + input * player.Speed * Time.deltaTime;
+            float minX = -_screenBounds.x + player.CollisionRadius;
+            float minY = -_screenBounds.y + player.CollisionRadius;
+            float maxX = _screenBounds.x - player.CollisionRadius;
+            float maxY = _levelService.Finish - player.CollisionRadius;
+            position.x = Mathf.Clamp(position.x, minX, maxX);
+            position.y = Mathf.Clamp(position.y, minY, maxY);
+            player.transform.position = position;
         }
     }
 }

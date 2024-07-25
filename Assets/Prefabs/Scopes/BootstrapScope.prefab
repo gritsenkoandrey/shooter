@@ -175,9 +175,6 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
-  _screenService: {fileID: 2211403200937152527, guid: ab7070b32e8d99e4abb74372c772d365,
-    type: 3}
-  _cameraService: {fileID: 7072030995001472565, guid: c727ae54053918f4fb1bbc865f6284ec,
-    type: 3}
-  _loadingScreenService: {fileID: 1797351408786202256, guid: 73803ccd35be9f94a9504782f7d8d852,
-    type: 3}
+  _screenService: {fileID: 2211403200937152527, guid: ab7070b32e8d99e4abb74372c772d365, type: 3}
+  _cameraService: {fileID: 7072030995001472565, guid: c727ae54053918f4fb1bbc865f6284ec, type: 3}
+  _loadingScreenService: {fileID: 1797351408786202256, guid: 73803ccd35be9f94a9504782f7d8d852, type: 3}

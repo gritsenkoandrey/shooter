@@ -4,7 +4,7 @@ using VContainer;
 
 namespace Gameplay.Systems
 {
-    public sealed class InputSystem : SystemBase
+    public sealed class ExecuteInputSystem : SystemBase
     {
         private IInputService _inputService;
 

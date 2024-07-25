@@ -14,9 +14,6 @@ namespace Gameplay.Systems
             Entities.Foreach(Move);
         }
 
-        private void Move(Enemy enemy)
-        {
-            enemy.transform.position += Vector3.down * enemy.Speed * Time.deltaTime;
-        }
+        private void Move(Enemy enemy) => enemy.transform.position += Vector3.down * enemy.Speed * Time.deltaTime;
     }
 }

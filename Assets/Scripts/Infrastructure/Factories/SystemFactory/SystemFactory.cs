@@ -20,7 +20,7 @@ namespace Infrastructure.Factories.SystemFactory
         {
             ISystem[] systems =
             {
-                new InputSystem(),
+                new ExecuteInputSystem(),
                 new PlayerMovementSystem(),
                 new PlayerDamageSystem(),
                 new PlayerHealthViewSystem(),

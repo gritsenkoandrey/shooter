@@ -9,6 +9,8 @@ namespace Gameplay.Systems
     {
         private ILevelService _levelService;
 
+        private const string HealthFormat = "Health: {0}";
+
         [Inject]
         private void Construct(ILevelService levelService)
         {
@@ -33,14 +35,14 @@ namespace Gameplay.Systems
         {
             base.OnEnableComponent(component);
             
-            component.Text.text = $"Health: {_levelService.Health}";
+            component.Text.text = string.Format(HealthFormat, _levelService.Health.ToString());
         }
 
         private void OnChangeHealth(int health)
         {
             foreach (PlayerHealthView entity in Entities)
             {
-                entity.Text.text = $"Health: {health}";
+                entity.Text.text = string.Format(HealthFormat, health.ToString());
             }
         }
     }

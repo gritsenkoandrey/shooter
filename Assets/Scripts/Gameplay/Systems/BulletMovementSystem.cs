@@ -35,7 +35,7 @@ namespace Gameplay.Systems
 
         private void Move(Bullet bullet)
         {
-            bullet.transform.Translate(bullet.Direction * bullet.Speed * Time.deltaTime);
+            bullet.transform.position += bullet.Direction * bullet.Speed * Time.deltaTime;
 
             if (_screenBounds.x < Mathf.Abs(bullet.Position.x) || _screenBounds.y < Mathf.Abs(bullet.Position.y))
             {
