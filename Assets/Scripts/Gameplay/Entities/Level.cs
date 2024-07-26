@@ -1,14 +1,14 @@
-﻿using Core.Implementation;
+﻿using Game.Core.Implementation;
 using UnityEngine;
 
-namespace Gameplay.Components
+namespace Game.Gameplay.Entities
 {
     public sealed class Level : EntityComponent<Level>
     {
         [SerializeField] private Transform _playerSpawnPoint;
-        [SerializeField] private Transform _finishLine;
+        [SerializeField] private Transform _boundaryLine;
 
         public Transform PlayerSpawnPoint => _playerSpawnPoint;
-        public Transform FinishLine => _finishLine;
+        public float BoundaryLine => _boundaryLine.position.y;
     }
 }

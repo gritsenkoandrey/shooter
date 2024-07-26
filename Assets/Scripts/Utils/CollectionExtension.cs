@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Utils
+namespace Game.Utils
 {
     public static class CollectionExtension
     {

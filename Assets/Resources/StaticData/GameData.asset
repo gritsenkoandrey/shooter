@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   PlayerFireRadius: 50
-  PlayerFireInterval: 0.2
+  PlayerFireInterval: 0.1
   PlayerBulletSpeed: 50
   PlayerSpeed: 20
   PlayerFireDamage: 1
   PlayerHealth: 5
   RequiredKills:
-    Min: 15
-    Max: 20
+    Min: 50
+    Max: 75
   EnemySpawnDelay:
-    Min: 1
-    Max: 2.5
+    Min: 0.1
+    Max: 0.5
   EnemySpeed:
     Min: 2.5
     Max: 5

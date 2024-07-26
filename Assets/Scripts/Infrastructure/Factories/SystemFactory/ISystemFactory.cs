@@ -1,6 +1,6 @@
-﻿using Core.Implementation;
+﻿using Game.Core.Implementation;
 
-namespace Infrastructure.Factories.SystemFactory
+namespace Game.Infrastructure.Factories.SystemFactory
 {
     public interface ISystemFactory
     {

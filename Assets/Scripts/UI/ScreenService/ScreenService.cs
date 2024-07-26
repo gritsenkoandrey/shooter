@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Factories.ScreenFactory;
+using Game.Infrastructure.Factories.ScreenFactory;
 using UnityEngine;
 using VContainer;
 
-namespace UI.ScreenService
+namespace Game.UI.ScreenService
 {
     public sealed class ScreenService : MonoBehaviour, IScreenService
     {

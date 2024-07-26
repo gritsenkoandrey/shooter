@@ -1,6 +1,6 @@
-﻿using Infrastructure.GameStateMachine;
+﻿using Game.Infrastructure.GameStateMachine;
 
-namespace Infrastructure.Factories.StateMachineFactory
+namespace Game.Infrastructure.Factories.StateMachineFactory
 {
     public interface IStateMachineFactory
     {

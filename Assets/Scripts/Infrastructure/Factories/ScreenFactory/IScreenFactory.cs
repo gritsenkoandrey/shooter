@@ -1,7 +1,7 @@
-﻿using UI;
+﻿using Game.UI;
 using UnityEngine;
 
-namespace Infrastructure.Factories.ScreenFactory
+namespace Game.Infrastructure.Factories.ScreenFactory
 {
     public interface IScreenFactory
     {

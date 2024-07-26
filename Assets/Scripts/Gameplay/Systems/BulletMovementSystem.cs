@@ -1,46 +1,73 @@
-﻿using Core.Implementation;
-using Gameplay.Components;
-using Infrastructure.CameraService;
+﻿using System.Linq;
+using System.Runtime.CompilerServices;
+using Game.Core.Implementation;
+using Game.Gameplay.Entities;
+using Game.Gameplay.Jobs;
+using Game.Gameplay.Models;
+using Game.Infrastructure.ObjectPoolService;
+using Unity.Collections;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
-using Utils;
+using UnityEngine.Jobs;
 using VContainer;
 
-namespace Gameplay.Systems
+namespace Game.Gameplay.Systems
 {
     public sealed class BulletMovementSystem : SystemComponent<Bullet>
     {
-        private ICameraService _cameraService;
-        
-        private Vector2 _screenBounds;
+        private IObjectPoolService _objectPoolService;
+        private LevelBounds _levelBounds;
 
         [Inject]
-        private void Construct(ICameraService cameraService)
+        private void Construct(IObjectPoolService objectPoolService, LevelBounds levelBounds)
         {
-            _cameraService = cameraService;
-        }
-        
-        protected override void OnEnableSystem()
-        {
-            base.OnEnableSystem();
-
-            _screenBounds = _cameraService.Camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f));
+            _objectPoolService = objectPoolService;
+            _levelBounds = levelBounds;
         }
 
         protected override void OnUpdate()
         {
             base.OnUpdate();
             
-            Entities.Foreach(Move);
+            Move();
         }
 
-        private void Move(Bullet bullet)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void Move()
         {
-            bullet.transform.position += bullet.Direction * bullet.Speed * Time.deltaTime;
-
-            if (_screenBounds.x < Mathf.Abs(bullet.Position.x) || _screenBounds.y < Mathf.Abs(bullet.Position.y))
+            NativeArray<float3> directionArray = new NativeArray<float3>(Entities.Count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            NativeArray<float> speedArray = new NativeArray<float>(Entities.Count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
+            TransformAccessArray array = new TransformAccessArray(Entities.Select(entity => entity.transform).ToArray());
+            
+            for (int i = 0; i < Entities.Count; i++)
             {
-                Object.Destroy(bullet.gameObject);
+                directionArray[i] = Entities[i].Direction;
+                speedArray[i] = Entities[i].Speed;
             }
+
+            BulletMovementJob job = new BulletMovementJob
+            {
+                DirectionArray = directionArray,
+                SpeedArray = speedArray,
+                DeltaTime = Time.deltaTime
+            };
+            
+            JobHandle handle = job.Schedule(array);
+            
+            handle.Complete();
+
+            for (int i = Entities.Count - 1; i >= 0; i--)
+            {
+                if (_levelBounds.ScreenBounds.x < Mathf.Abs(Entities[i].Position.x) || _levelBounds.ScreenBounds.y < Mathf.Abs(Entities[i].Position.y))
+                {
+                    _objectPoolService.ReleaseObject(Entities[i].gameObject);
+                }
+            }
+
+            directionArray.Dispose();
+            speedArray.Dispose();
+            array.Dispose();
         }
     }
 }

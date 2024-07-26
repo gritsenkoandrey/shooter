@@ -1,21 +1,23 @@
-﻿using Infrastructure.AssetService;
-using Infrastructure.CameraService;
-using Infrastructure.Factories.GameFactory;
-using Infrastructure.Factories.ScreenFactory;
-using Infrastructure.Factories.StateMachineFactory;
-using Infrastructure.Factories.SystemFactory;
-using Infrastructure.GameStateMachine.States;
-using Infrastructure.InputService;
-using Infrastructure.LevelService;
-using Infrastructure.LoadingScreenService;
-using Infrastructure.SceneLoadService;
-using Infrastructure.StaticDataService;
-using UI.ScreenService;
+﻿using System;
+using Game.Infrastructure.AssetService;
+using Game.Infrastructure.CameraService;
+using Game.Infrastructure.Factories.GameFactory;
+using Game.Infrastructure.Factories.ScreenFactory;
+using Game.Infrastructure.Factories.StateMachineFactory;
+using Game.Infrastructure.Factories.SystemFactory;
+using Game.Infrastructure.GameStateMachine.States;
+using Game.Infrastructure.InputService;
+using Game.Infrastructure.LevelService;
+using Game.Infrastructure.LoadingScreenService;
+using Game.Infrastructure.ObjectPoolService;
+using Game.Infrastructure.SceneLoadService;
+using Game.Infrastructure.StaticDataService;
+using Game.UI.ScreenService;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-namespace Scopes
+namespace Game.Scopes
 {
     public sealed class BootstrapScope : LifetimeScope
     {
@@ -50,6 +52,8 @@ namespace Scopes
             builder.Register<IScreenFactory, ScreenFactory>(Lifetime.Singleton);
             builder.Register<ISystemFactory, SystemFactory>(Lifetime.Singleton);
             builder.Register<IGameFactory, GameFactory>(Lifetime.Singleton);
+            
+            builder.Register<IObjectPoolService, ObjectPoolService>(Lifetime.Singleton).WithParameter(transform).As<IDisposable>();
 
             builder.RegisterBuildCallback(CreateGameStateMachine);
         }

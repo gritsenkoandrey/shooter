@@ -1,7 +1,7 @@
-﻿using Infrastructure.StaticDataService.Data;
-using UI;
+﻿using Game.Infrastructure.StaticDataService.Data;
+using Game.UI;
 
-namespace Infrastructure.StaticDataService
+namespace Game.Infrastructure.StaticDataService
 {
     public interface IStaticDataService
     {
@@ -9,5 +9,6 @@ namespace Infrastructure.StaticDataService
         ScreenData GetScreenData(ScreenType screenType);
         PrefabData GetPrefabData();
         GameData GetGameData();
+        PoolData GetPoolData();
     }
 }

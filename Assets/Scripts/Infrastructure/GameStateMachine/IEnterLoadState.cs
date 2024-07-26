@@ -1,4 +1,4 @@
-namespace Infrastructure.GameStateMachine
+namespace Game.Infrastructure.GameStateMachine
 {
     public interface IEnterLoadState<in TLoad> : IExitState
     {

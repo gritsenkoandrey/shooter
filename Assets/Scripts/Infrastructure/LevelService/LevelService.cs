@@ -1,48 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using Gameplay.Components;
+﻿using System.Collections.Generic;
+using Game.Gameplay.Entities;
 using JetBrains.Annotations;
 
-namespace Infrastructure.LevelService
+namespace Game.Infrastructure.LevelService
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public sealed class LevelService : ILevelService
     {
-        private int _health;
-        private int _kills;
-        public List<Enemy> Enemies { get; } = new ();
-        public float Finish { get; set; }
-        public int Health
-        {
-            get => _health;
-            
-            set
-            {
-                _health = value;
-                OnChangeHealth?.Invoke(value);
-            }
-        }
-        public int Kills
-        {
-            get => _kills;
-            
-            set
-            {
-                _kills = value;
-                OnChangeKills?.Invoke(value);
-            }
-        }
+        private readonly List<Enemy> _enemies = new ();
 
-        public event Action<int> OnChangeHealth;
-
-        public event Action<int> OnChangeKills;
-
-        void ILevelService.CleanUp()
-        {
-            Enemies.Clear();
-            Finish = 0f;
-            Health = 0;
-            Kills = 0;
-        }
+        IReadOnlyList<Enemy> ILevelService.Enemies => _enemies;
+        void ILevelService.AddEnemy(Enemy enemy) => _enemies.Add(enemy);
+        void ILevelService.RemoveEnemy(Enemy enemy) => _enemies.Remove(enemy);
+        void ILevelService.RemoveEnemy(int index) => _enemies.RemoveAt(index);
+        void ILevelService.CleanUp() => _enemies.Clear();
     }
 }

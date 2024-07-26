@@ -1,4 +1,4 @@
-namespace Infrastructure.GameStateMachine
+namespace Game.Infrastructure.GameStateMachine
 {
     public interface IExitState
     {

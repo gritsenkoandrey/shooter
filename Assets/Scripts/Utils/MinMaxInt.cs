@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.StaticDataService.Data
+﻿namespace Game.Utils
 {
     [System.Serializable]
     public struct MinMaxInt

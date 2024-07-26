@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UI
+namespace Game.UI
 {
     public sealed class BaseCanvas : MonoBehaviour
     {

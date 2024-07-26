@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.InputService
+﻿namespace Game.Infrastructure.InputService
 {
     public interface IInputService
     {

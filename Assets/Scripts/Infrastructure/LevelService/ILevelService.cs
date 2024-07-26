@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Gameplay.Components;
+﻿using System.Collections.Generic;
+using Game.Gameplay.Entities;
 
-namespace Infrastructure.LevelService
+namespace Game.Infrastructure.LevelService
 {
     public interface ILevelService
     {
-        List<Enemy> Enemies { get; }
-        public int Health { get; set; }
-        public int Kills { get; set; }
-        public float Finish { get; set; }
-        public event Action<int> OnChangeHealth;
-        public event Action<int> OnChangeKills;
+        IReadOnlyList<Enemy> Enemies { get; }
+        void AddEnemy(Enemy enemy);
+        void RemoveEnemy(Enemy enemy);
+        void RemoveEnemy(int index);
         void CleanUp();
     }
 }

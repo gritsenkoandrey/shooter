@@ -1,29 +1,38 @@
-﻿using Gameplay.Components;
-using Infrastructure.LevelService;
-using Infrastructure.StaticDataService;
+﻿using Game.Gameplay.Entities;
+using Game.Gameplay.Models;
+using Game.Infrastructure.LevelService;
+using Game.Infrastructure.ObjectPoolService;
+using Game.Infrastructure.StaticDataService;
+using Game.Scopes;
 using JetBrains.Annotations;
 using UnityEngine;
+using VContainer;
+using VContainer.Unity;
 
-namespace Infrastructure.Factories.GameFactory
+namespace Game.Infrastructure.Factories.GameFactory
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public sealed class GameFactory : IGameFactory
     {
         private readonly IStaticDataService _staticDataService;
         private readonly ILevelService _levelService;
+        private readonly IObjectPoolService _objectPoolService;
 
-        public GameFactory(IStaticDataService staticDataService, ILevelService levelService)
+        public GameFactory(IStaticDataService staticDataService, ILevelService levelService, IObjectPoolService objectPoolService)
         {
             _staticDataService = staticDataService;
             _levelService = levelService;
+            _objectPoolService = objectPoolService;
         }
         
         Level IGameFactory.CreateLevel()
         {
             Level level = Object.Instantiate(_staticDataService.GetPrefabData().Level);
 
-            _levelService.Finish = level.FinishLine.position.y;
-            
+            IObjectResolver container = LifetimeScope.Find<GameScope>().Container;
+
+            container.Resolve<LevelBounds>().SetBoundaryLine(level.BoundaryLine);
+
             return level;
         }
 
@@ -31,33 +40,30 @@ namespace Infrastructure.Factories.GameFactory
         {
             Player player = Object.Instantiate(_staticDataService.GetPrefabData().Player, position, rotation, parent);
 
-            player.Speed = _staticDataService.GetGameData().PlayerSpeed;
-            player.Weapon.RadiusSqr = Mathf.Pow(_staticDataService.GetGameData().PlayerFireRadius, 2);
-            player.Weapon.Interval = _staticDataService.GetGameData().PlayerFireInterval;
-            player.Weapon.Speed = _staticDataService.GetGameData().PlayerBulletSpeed;
-            player.Weapon.Damage = _staticDataService.GetGameData().PlayerFireDamage;
-            
-            _levelService.Health = _staticDataService.GetGameData().PlayerHealth;
-            _levelService.Kills = Random.Range(_staticDataService.GetGameData().RequiredKills.Min, _staticDataService.GetGameData().RequiredKills.Max);
+            player.Move.SetSpeed(_staticDataService.GetGameData().PlayerSpeed);
+            player.Weapon.SetFireRadius(Mathf.Pow(_staticDataService.GetGameData().PlayerFireRadius, 2));
+            player.Weapon.SetFireInterval(_staticDataService.GetGameData().PlayerFireInterval);
+            player.Weapon.SetBulletSpeed(_staticDataService.GetGameData().PlayerBulletSpeed);
+            player.Weapon.SetBulletDamage(_staticDataService.GetGameData().PlayerFireDamage);
             
             return player;
         }
 
-        Enemy IGameFactory.CreateEnemy(Vector3 position, Quaternion rotation, Transform parent)
+        Enemy IGameFactory.CreateEnemy(Vector3 position, Quaternion rotation)
         {
-            Enemy enemy = Object.Instantiate(_staticDataService.GetPrefabData().Enemy, position, rotation, parent);
+            Enemy enemy = _objectPoolService.SpawnObject(_staticDataService.GetPrefabData().Enemy, position, rotation).GetComponent<Enemy>();
             
-            enemy.Speed = Random.Range(_staticDataService.GetGameData().EnemySpeed.Min, _staticDataService.GetGameData().EnemySpeed.Max);
-            enemy.Health = _staticDataService.GetGameData().EnemyHealth;
+            enemy.Move.SetSpeed(Random.Range(_staticDataService.GetGameData().EnemySpeed.Min, _staticDataService.GetGameData().EnemySpeed.Max));
+            enemy.Health.CurrentHealth = _staticDataService.GetGameData().EnemyHealth;
             
-            _levelService.Enemies.Add(enemy);
+            _levelService.AddEnemy(enemy);
 
             return enemy;
         }
 
-        Bullet IGameFactory.CreateBullet(Vector3 position, Quaternion rotation, Transform parent)
+        Bullet IGameFactory.CreateBullet(Vector3 position, Quaternion rotation)
         {
-            return Object.Instantiate(_staticDataService.GetPrefabData().Bullet, position, rotation, parent);
+            return _objectPoolService.SpawnObject(_staticDataService.GetPrefabData().Bullet, position, rotation).GetComponent<Bullet>();
         }
     }
 }

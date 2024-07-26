@@ -1,55 +1,45 @@
-﻿using Core.Implementation;
-using Gameplay.Components;
-using Infrastructure.CameraService;
-using Infrastructure.InputService;
-using Infrastructure.LevelService;
+﻿using System.Runtime.CompilerServices;
+using Game.Core.Implementation;
+using Game.Gameplay.Entities;
+using Game.Gameplay.Models;
+using Game.Infrastructure.InputService;
+using Game.Utils;
 using UnityEngine;
-using Utils;
 using VContainer;
 
-namespace Gameplay.Systems
+namespace Game.Gameplay.Systems
 {
     public sealed class PlayerMovementSystem : SystemComponent<Player>
     {
         private IInputService _inputService;
-        private ICameraService _cameraService;
-        private ILevelService _levelService;
-
-        private Vector2 _screenBounds;
+        private LevelBounds _levelBounds;
 
         [Inject]
-        private void Construct(IInputService inputService, ICameraService cameraService, ILevelService levelService)
+        private void Construct(IInputService inputService, LevelBounds levelBounds)
         {
             _inputService = inputService;
-            _cameraService = cameraService;
-            _levelService = levelService;
-        }
-
-        protected override void OnEnableSystem()
-        {
-            base.OnEnableSystem();
-
-            _screenBounds = _cameraService.Camera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0f));
+            _levelBounds = levelBounds;
         }
 
         protected override void OnUpdate()
         {
             base.OnUpdate();
             
-            Entities.Foreach(Move);
+            Entities.Foreach(Execute);
         }
 
-        private void Move(Player player)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void Execute(Player component)
         {
             Vector3 input = new Vector3(_inputService.Horizontal, _inputService.Vertical, 0f);
-            Vector3 position = player.Position + input * player.Speed * Time.deltaTime;
-            float minX = -_screenBounds.x + player.CollisionRadius;
-            float minY = -_screenBounds.y + player.CollisionRadius;
-            float maxX = _screenBounds.x - player.CollisionRadius;
-            float maxY = _levelService.Finish - player.CollisionRadius;
+            Vector3 position = component.Position + input * component.Move.Speed * Time.deltaTime;
+            float minX = -_levelBounds.ScreenBounds.x + component.Radius;
+            float minY = -_levelBounds.ScreenBounds.y + component.Radius;
+            float maxX = _levelBounds.ScreenBounds.x - component.Radius;
+            float maxY = _levelBounds.BoundaryLine - component.Radius;
             position.x = Mathf.Clamp(position.x, minX, maxX);
             position.y = Mathf.Clamp(position.y, minY, maxY);
-            player.transform.position = position;
+            component.transform.position = position;
         }
     }
 }

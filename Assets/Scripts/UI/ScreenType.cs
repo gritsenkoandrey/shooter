@@ -1,4 +1,4 @@
-﻿namespace UI
+﻿namespace Game.UI
 {
     [System.Serializable]
     public enum ScreenType : byte

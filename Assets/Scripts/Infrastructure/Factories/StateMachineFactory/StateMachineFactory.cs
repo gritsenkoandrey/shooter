@@ -1,9 +1,9 @@
-﻿using Infrastructure.GameStateMachine;
+﻿using Game.Infrastructure.GameStateMachine;
+using Game.Utils;
 using JetBrains.Annotations;
-using Utils;
 using VContainer;
 
-namespace Infrastructure.Factories.StateMachineFactory
+namespace Game.Infrastructure.Factories.StateMachineFactory
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public sealed class StateMachineFactory : IStateMachineFactory

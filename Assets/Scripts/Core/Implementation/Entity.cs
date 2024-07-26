@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Core.Implementation
+namespace Game.Core.Implementation
 {
     public abstract class Entity : MonoBehaviour
     {

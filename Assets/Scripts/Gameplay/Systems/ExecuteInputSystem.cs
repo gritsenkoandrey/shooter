@@ -1,8 +1,8 @@
-﻿using Core.Implementation;
-using Infrastructure.InputService;
+﻿using Game.Core.Implementation;
+using Game.Infrastructure.InputService;
 using VContainer;
 
-namespace Gameplay.Systems
+namespace Game.Gameplay.Systems
 {
     public sealed class ExecuteInputSystem : SystemBase
     {

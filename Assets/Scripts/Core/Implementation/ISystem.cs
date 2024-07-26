@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Implementation
+namespace Game.Core.Implementation
 {
     public interface ISystem : IDisposable
     {

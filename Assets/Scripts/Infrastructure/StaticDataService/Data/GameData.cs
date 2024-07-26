@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Game.Utils;
+using UnityEngine;
 
-namespace Infrastructure.StaticDataService.Data
+namespace Game.Infrastructure.StaticDataService.Data
 {
     [CreateAssetMenu(fileName = nameof(GameData), menuName = "Data/" + nameof(GameData))]
     public sealed class GameData : ScriptableObject

@@ -1,14 +1,15 @@
-﻿using Gameplay.Components;
-using Infrastructure.AssetService;
-using Infrastructure.Factories.GameFactory;
-using Infrastructure.LevelService;
-using Infrastructure.LoadingScreenService;
-using Infrastructure.SceneLoadService;
-using UI.ScreenService;
+﻿using Game.Gameplay.Entities;
+using Game.Infrastructure.AssetService;
+using Game.Infrastructure.Factories.GameFactory;
+using Game.Infrastructure.LevelService;
+using Game.Infrastructure.LoadingScreenService;
+using Game.Infrastructure.ObjectPoolService;
+using Game.Infrastructure.SceneLoadService;
+using Game.UI.ScreenService;
 using UnityEngine;
 using VContainer;
 
-namespace Infrastructure.GameStateMachine.States
+namespace Game.Infrastructure.GameStateMachine.States
 {
     public sealed class LoadLevelState : IEnterLoadState<string>
     {
@@ -20,6 +21,7 @@ namespace Infrastructure.GameStateMachine.States
         private IGameFactory _gameFactory;
         private ILevelService _levelService;
         private ILoadingScreenService _loadingScreenService;
+        private IObjectPoolService _objectPoolService;
 
         public LoadLevelState(IGameStateMachine gameStateMachine)
         {
@@ -57,6 +59,7 @@ namespace Infrastructure.GameStateMachine.States
         private void CreateLevel()
         {
             Level level = _gameFactory.CreateLevel();
+            
             _gameFactory.CreatePlayer(level.PlayerSpawnPoint.position, Quaternion.identity, level.transform);
             
             _gameStateMachine.Enter<GameState>();

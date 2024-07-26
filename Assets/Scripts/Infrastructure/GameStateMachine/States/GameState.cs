@@ -1,10 +1,12 @@
-﻿using Infrastructure.LevelService;
-using Infrastructure.SceneLoadService;
-using UI;
-using UI.ScreenService;
+﻿using Game.Gameplay.Models;
+using Game.Infrastructure.SceneLoadService;
+using Game.Scopes;
+using Game.UI;
+using Game.UI.ScreenService;
 using VContainer;
+using VContainer.Unity;
 
-namespace Infrastructure.GameStateMachine.States
+namespace Game.Infrastructure.GameStateMachine.States
 {
     public sealed class GameState : IEnterState
     {
@@ -12,7 +14,8 @@ namespace Infrastructure.GameStateMachine.States
         
         private IScreenService _screenService;
         private ISceneLoadService _sceneLoadService;
-        private ILevelService _levelService;
+        private PlayerHealth _playerHealth;
+        private EnemyKillCounter _enemyKillCounter;
 
         public GameState(IGameStateMachine gameStateMachine)
         {
@@ -20,24 +23,32 @@ namespace Infrastructure.GameStateMachine.States
         }
 
         [Inject]
-        private void Construct(IScreenService screenService, ISceneLoadService sceneLoadService, ILevelService levelService)
+        private void Construct(IScreenService screenService, ISceneLoadService sceneLoadService)
         {
             _screenService = screenService;
             _sceneLoadService = sceneLoadService;
-            _levelService = levelService;
         }
 
         void IEnterState.Enter()
         {
             _screenService.CreateScreen(ScreenType.Game);
-            _levelService.OnChangeHealth += OnChangeHealth;
-            _levelService.OnChangeKills += OnChangeKills;
+
+            IObjectResolver resolver = LifetimeScope.Find<GameScope>().Container;
+            
+            _playerHealth = resolver.Resolve<PlayerHealth>();
+            _enemyKillCounter = resolver.Resolve<EnemyKillCounter>();
+            
+            _playerHealth.OnChangeHealth += OnChangeHealth;
+            _enemyKillCounter.OnChangeKills += OnChangeKills;
         }
 
         void IExitState.Exit()
         {
-            _levelService.OnChangeHealth -= OnChangeHealth;
-            _levelService.OnChangeKills -= OnChangeKills;
+            _playerHealth.OnChangeHealth -= OnChangeHealth;
+            _enemyKillCounter.OnChangeKills -= OnChangeKills;
+
+            _playerHealth = null;
+            _enemyKillCounter = null;
         }
 
         private void OnChangeKills(int count)

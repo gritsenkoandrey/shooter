@@ -1,8 +1,8 @@
-﻿using Core.Implementation;
+﻿using Game.Core.Implementation;
 using TMPro;
 using UnityEngine;
 
-namespace Gameplay.Components
+namespace Game.Gameplay.Entities
 {
     public sealed class PlayerHealthView : EntityComponent<PlayerHealthView>
     {

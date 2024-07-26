@@ -1,7 +1,7 @@
-﻿using Infrastructure.SceneLoadService;
+﻿using Game.Infrastructure.SceneLoadService;
 using VContainer;
 
-namespace Infrastructure.GameStateMachine.States
+namespace Game.Infrastructure.GameStateMachine.States
 {
     public sealed class BootstrapState : IEnterState
     {

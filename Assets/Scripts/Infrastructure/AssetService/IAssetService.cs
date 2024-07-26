@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Infrastructure.AssetService
+namespace Game.Infrastructure.AssetService
 {
     public interface IAssetService
     {

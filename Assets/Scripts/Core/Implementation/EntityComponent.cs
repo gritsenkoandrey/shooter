@@ -1,4 +1,4 @@
-﻿namespace Core.Implementation
+﻿namespace Game.Core.Implementation
 {
     public abstract class EntityComponent<T> : Entity where T : Entity
     {

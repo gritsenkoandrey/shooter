@@ -1,10 +1,10 @@
-﻿using Infrastructure.StaticDataService;
-using Infrastructure.StaticDataService.Data;
+﻿using Game.Infrastructure.StaticDataService;
+using Game.Infrastructure.StaticDataService.Data;
+using Game.UI;
 using JetBrains.Annotations;
-using UI;
 using UnityEngine;
 
-namespace Infrastructure.Factories.ScreenFactory
+namespace Game.Infrastructure.Factories.ScreenFactory
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public sealed class ScreenFactory : IScreenFactory

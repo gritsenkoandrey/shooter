@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Level: {fileID: 603595178827567563, guid: 140894fb1eae03c40bc3963d48fa74c7, type: 3}
   Player: {fileID: 8363385945259602997, guid: 9c9bc9a99d81a4d4b8ceebc8509f849a, type: 3}
-  Enemy: {fileID: 7870498081216990517, guid: c616a599abb7a4448ad7bb6151ca30f9, type: 3}
-  Bullet: {fileID: 5847243751459457591, guid: e3a55fa8ac91c3843af162a83f59482c, type: 3}
-  PlayerHealthView: {fileID: 3136390249899507069, guid: 043f1b8cf1fc6c04fa8e19afde2fe65a, type: 3}
+  Enemy: {fileID: 1631641301041352175, guid: c616a599abb7a4448ad7bb6151ca30f9, type: 3}
+  Bullet: {fileID: 5743519209121100889, guid: e3a55fa8ac91c3843af162a83f59482c, type: 3}

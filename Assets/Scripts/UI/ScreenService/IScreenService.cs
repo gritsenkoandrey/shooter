@@ -1,4 +1,4 @@
-﻿namespace UI.ScreenService
+﻿namespace Game.UI.ScreenService
 {
     public interface IScreenService
     {

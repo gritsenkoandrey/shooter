@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Core.Implementation
+namespace Game.Core.Implementation
 {
     public abstract class SystemComponent<T> : SystemBase where T : Entity
     {

@@ -1,7 +1,7 @@
-﻿using Core.Implementation;
+﻿using Game.Core.Implementation;
 using UnityEngine;
 
-namespace Gameplay.Components
+namespace Game.Gameplay.Entities
 {
     public sealed class EnemySpawner : EntityComponent<EnemySpawner>
     {

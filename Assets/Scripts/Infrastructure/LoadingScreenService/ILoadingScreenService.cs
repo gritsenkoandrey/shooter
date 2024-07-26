@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.LoadingScreenService
+﻿namespace Game.Infrastructure.LoadingScreenService
 {
     public interface ILoadingScreenService
     {

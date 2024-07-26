@@ -1,12 +1,15 @@
-﻿using Core.Implementation;
-
-namespace Gameplay.Components
+﻿namespace Game.Gameplay.Components
 {
-    public sealed class Weapon : EntityComponent<Weapon>
+    public sealed class Weapon
     {
-        public float RadiusSqr { get; set; }
-        public float Interval { get; set; }
-        public float Speed { get; set; }
-        public int Damage { get; set; }
+        public float FireRadius { get; private set; }
+        public float FireInterval { get; private set; }
+        public float BulletSpeed { get; private set; }
+        public int BulletDamage { get; private set; }
+        public float CurrentFireInterval { get; set; }
+        public void SetFireRadius(float fireRadius) => FireRadius = fireRadius;
+        public void SetFireInterval(float fireInterval) => FireInterval = fireInterval;
+        public void SetBulletSpeed(float bulletSpeed) => BulletSpeed = bulletSpeed;
+        public void SetBulletDamage(int bulletDamage) => BulletDamage = bulletDamage;
     }
 }

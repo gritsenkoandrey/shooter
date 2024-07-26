@@ -1,4 +1,4 @@
-﻿namespace UI.Screens
+﻿namespace Game.UI.Screens
 {
     public sealed class WinScreen : BaseScreen
     {

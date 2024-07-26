@@ -1,37 +1,27 @@
-﻿using Core.Implementation;
-using Gameplay.Systems;
+﻿using Game.Core.Implementation;
+using Game.Gameplay.Systems;
 using JetBrains.Annotations;
-using Utils;
-using VContainer;
 
-namespace Infrastructure.Factories.SystemFactory
+namespace Game.Infrastructure.Factories.SystemFactory
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public sealed class SystemFactory : ISystemFactory
     {
-        private readonly IObjectResolver _objectResolver;
-
-        public SystemFactory(IObjectResolver objectResolver)
-        {
-            _objectResolver = objectResolver;
-        }
-        
         ISystem[] ISystemFactory.CreateGameSystems()
         {
             ISystem[] systems =
             {
                 new ExecuteInputSystem(),
+                new ExecuteObjectPoolSystem(),
                 new PlayerMovementSystem(),
-                new PlayerDamageSystem(),
+                new PlayerShootingSystem(),
                 new PlayerHealthViewSystem(),
                 new EnemyMovementSystem(),
-                new EnemyDamageSystem(),
+                new EnemyLifeTimeSystem(),
                 new EnemySpawnSystem(),
                 new BulletMovementSystem(),
                 new BulletDamageSystem(),
             };
-            
-            systems.Foreach(_objectResolver.Inject);
 
             return systems;
         }

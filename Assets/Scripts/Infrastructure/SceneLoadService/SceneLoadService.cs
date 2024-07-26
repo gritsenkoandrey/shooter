@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UnityEngine.SceneManagement;
 
-namespace Infrastructure.SceneLoadService
+namespace Game.Infrastructure.SceneLoadService
 {
     [UsedImplicitly(ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature)]
     public sealed class SceneLoadService : ISceneLoadService

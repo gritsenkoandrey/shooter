@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-namespace Infrastructure.LoadingScreenService
+namespace Game.Infrastructure.LoadingScreenService
 {
     public sealed class LoadingScreenService : MonoBehaviour, ILoadingScreenService
     {

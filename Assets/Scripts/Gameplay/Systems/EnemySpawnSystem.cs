@@ -1,17 +1,21 @@
-﻿using Core.Implementation;
-using Gameplay.Components;
-using Infrastructure.Factories.GameFactory;
-using Infrastructure.StaticDataService;
+﻿using System.Runtime.CompilerServices;
+using Game.Core.Implementation;
+using Game.Gameplay.Entities;
+using Game.Infrastructure.Factories.GameFactory;
+using Game.Infrastructure.StaticDataService;
+using Game.Utils;
 using UnityEngine;
-using Utils;
 using VContainer;
 
-namespace Gameplay.Systems
+namespace Game.Gameplay.Systems
 {
     public sealed class EnemySpawnSystem : SystemComponent<EnemySpawner>
     {
         private IGameFactory _gameFactory;
         private IStaticDataService _staticDataService;
+
+        private float _min;
+        private float _max;
 
         [Inject]
         private void Construct(IGameFactory gameFactory, IStaticDataService staticDataService)
@@ -19,25 +23,34 @@ namespace Gameplay.Systems
             _gameFactory = gameFactory;
             _staticDataService = staticDataService;
         }
-        
+
+        protected override void OnEnableSystem()
+        {
+            base.OnEnableSystem();
+
+            _min = _staticDataService.GetGameData().EnemySpawnDelay.Min;
+            _max = _staticDataService.GetGameData().EnemySpawnDelay.Max;
+        }
+
         protected override void OnUpdate()
         {
             base.OnUpdate();
             
-            Entities.Foreach(Spawn);
+            Entities.Foreach(Execute);
         }
 
-        private void Spawn(EnemySpawner enemySpawner)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void Execute(EnemySpawner component)
         {
-            enemySpawner.SpawnDelay -= Time.deltaTime;
+            component.SpawnDelay -= Time.deltaTime;
 
-            if (enemySpawner.SpawnDelay < 0f)
+            if (component.SpawnDelay < 0f)
             {
-                enemySpawner.SpawnDelay = Random.Range(_staticDataService.GetGameData().EnemySpawnDelay.Min, _staticDataService.GetGameData().EnemySpawnDelay.Max);
+                component.SpawnDelay = Random.Range(_min, _max);
                 
-                Vector3 position = enemySpawner.Points[Random.Range(0, enemySpawner.Points.Length)].position;
+                Vector3 position = component.Points[Random.Range(0, component.Points.Length)].position;
 
-                _gameFactory.CreateEnemy(position, Quaternion.identity, enemySpawner.transform.parent);
+                _gameFactory.CreateEnemy(position, Quaternion.identity);
             }
         }
     }
