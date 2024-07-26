@@ -8,7 +8,6 @@ namespace Game.Infrastructure.LevelService
         IReadOnlyList<Enemy> Enemies { get; }
         void AddEnemy(Enemy enemy);
         void RemoveEnemy(Enemy enemy);
-        void RemoveEnemy(int index);
         void CleanUp();
     }
 }

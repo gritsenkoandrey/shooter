@@ -12,7 +12,6 @@ namespace Game.Infrastructure.LevelService
         IReadOnlyList<Enemy> ILevelService.Enemies => _enemies;
         void ILevelService.AddEnemy(Enemy enemy) => _enemies.Add(enemy);
         void ILevelService.RemoveEnemy(Enemy enemy) => _enemies.Remove(enemy);
-        void ILevelService.RemoveEnemy(int index) => _enemies.RemoveAt(index);
         void ILevelService.CleanUp() => _enemies.Clear();
     }
 }

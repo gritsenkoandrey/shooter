@@ -49,8 +49,10 @@ namespace Game.Gameplay.Systems
                 component.SpawnDelay = Random.Range(_min, _max);
                 
                 Vector3 position = component.Points[Random.Range(0, component.Points.Length)].position;
+                
+                float offset = Random.Range(-2.5f, 2.5f);
 
-                _gameFactory.CreateEnemy(position, Quaternion.identity);
+                _gameFactory.CreateEnemy(position.AddX(offset), Quaternion.identity);
             }
         }
     }

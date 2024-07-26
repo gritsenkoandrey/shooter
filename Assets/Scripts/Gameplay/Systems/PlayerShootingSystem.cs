@@ -36,7 +36,7 @@ namespace Game.Gameplay.Systems
             {
                 int index = GetNearestTarget(component, _levelService.Enemies);
 
-                CreateBullet(component, index);
+                CreateBullet(component, _levelService.Enemies[index]);
             }
         }
 
@@ -88,10 +88,10 @@ namespace Game.Gameplay.Systems
         }
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void CreateBullet(Player component, int index)
+        private void CreateBullet(Player component, Enemy enemy)
         {
             Bullet bullet = _gameFactory.CreateBullet(component.Position, Quaternion.identity);
-            bullet.SetDirection((_levelService.Enemies[index].Position - component.Position).normalized);
+            bullet.SetDirection((enemy.Position - component.Position).normalized);
             bullet.SetSpeed(component.Weapon.BulletSpeed);
             bullet.SetDamage(component.Weapon.BulletDamage);
         }

@@ -27,4 +27,4 @@ MonoBehaviour:
   EnemySpeed:
     Min: 2.5
     Max: 5
-  EnemyHealth: 5
+  EnemyHealth: 2

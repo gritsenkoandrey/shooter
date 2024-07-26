@@ -3,6 +3,7 @@ using Game.Gameplay.Models;
 using Game.Infrastructure.LevelService;
 using Game.Infrastructure.ObjectPoolService;
 using Game.Infrastructure.StaticDataService;
+using Game.Infrastructure.StaticDataService.Data;
 using Game.Scopes;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -40,21 +41,27 @@ namespace Game.Infrastructure.Factories.GameFactory
         {
             Player player = Object.Instantiate(_staticDataService.GetPrefabData().Player, position, rotation, parent);
 
-            player.Move.SetSpeed(_staticDataService.GetGameData().PlayerSpeed);
-            player.Weapon.SetFireRadius(Mathf.Pow(_staticDataService.GetGameData().PlayerFireRadius, 2));
-            player.Weapon.SetFireInterval(_staticDataService.GetGameData().PlayerFireInterval);
-            player.Weapon.SetBulletSpeed(_staticDataService.GetGameData().PlayerBulletSpeed);
-            player.Weapon.SetBulletDamage(_staticDataService.GetGameData().PlayerFireDamage);
+            GameData data = _staticDataService.GetGameData();
+
+            player.Move.SetSpeed(data.PlayerSpeed);
+            player.Weapon.SetFireRadius(Mathf.Pow(data.PlayerFireRadius, 2));
+            player.Weapon.SetFireInterval(data.PlayerFireInterval);
+            player.Weapon.SetBulletSpeed(data.PlayerBulletSpeed);
+            player.Weapon.SetBulletDamage(data.PlayerFireDamage);
             
             return player;
         }
 
         Enemy IGameFactory.CreateEnemy(Vector3 position, Quaternion rotation)
         {
-            Enemy enemy = _objectPoolService.SpawnObject(_staticDataService.GetPrefabData().Enemy, position, rotation).GetComponent<Enemy>();
+            Enemy enemy = _objectPoolService
+                .SpawnObject(_staticDataService.GetPrefabData().Enemy, position, rotation)
+                .GetComponent<Enemy>();
             
-            enemy.Move.SetSpeed(Random.Range(_staticDataService.GetGameData().EnemySpeed.Min, _staticDataService.GetGameData().EnemySpeed.Max));
-            enemy.Health.CurrentHealth = _staticDataService.GetGameData().EnemyHealth;
+            GameData data = _staticDataService.GetGameData();
+
+            enemy.Move.SetSpeed(Random.Range(data.EnemySpeed.Min, data.EnemySpeed.Max));
+            enemy.Health.CurrentHealth = data.EnemyHealth;
             
             _levelService.AddEnemy(enemy);
 
@@ -63,7 +70,9 @@ namespace Game.Infrastructure.Factories.GameFactory
 
         Bullet IGameFactory.CreateBullet(Vector3 position, Quaternion rotation)
         {
-            return _objectPoolService.SpawnObject(_staticDataService.GetPrefabData().Bullet, position, rotation).GetComponent<Bullet>();
+            return _objectPoolService
+                .SpawnObject(_staticDataService.GetPrefabData().Bullet, position, rotation)
+                .GetComponent<Bullet>();
         }
     }
 }
