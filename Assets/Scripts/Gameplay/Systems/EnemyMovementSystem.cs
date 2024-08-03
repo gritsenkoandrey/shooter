@@ -12,6 +12,7 @@ namespace Game.Gameplay.Systems
 {
     public sealed class EnemyMovementSystem : SystemComponent<Enemy>
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();
@@ -23,7 +24,7 @@ namespace Game.Gameplay.Systems
         private void Move()
         {
             NativeArray<float> speedArray = new NativeArray<float>(Entities.Count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            TransformAccessArray array = new TransformAccessArray(Entities.Select(entity => entity.transform).ToArray());
+            TransformAccessArray transformArray = new TransformAccessArray(Entities.Select(entity => entity.transform).ToArray());
             
             for (int i = 0; i < Entities.Count; i++)
             {
@@ -37,12 +38,12 @@ namespace Game.Gameplay.Systems
                 Direction = Vector3.down
             };
 
-            JobHandle handle = job.Schedule(array);
+            JobHandle handle = job.Schedule(transformArray);
             
             handle.Complete();
 
             speedArray.Dispose();
-            array.Dispose();
+            transformArray.Dispose();
         }
     }
 }

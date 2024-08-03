@@ -28,6 +28,7 @@ namespace Game.Gameplay.Systems
             _enemyKillCounter = enemyKillCounter;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();

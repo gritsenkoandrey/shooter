@@ -32,6 +32,7 @@ namespace Game.Gameplay.Systems
             _max = _staticDataService.GetGameData().EnemySpawnDelay.Max;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();

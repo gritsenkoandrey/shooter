@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c6be961321448aabdf16e8bab8ac92, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  PlayerFireRadius: 50
+  PlayerFireRadius: 10
   PlayerFireInterval: 0.1
-  PlayerBulletSpeed: 50
-  PlayerSpeed: 20
+  PlayerBulletSpeed: 15
+  PlayerSpeed: 5
   PlayerFireDamage: 1
   PlayerHealth: 5
   RequiredKills:
-    Min: 50
-    Max: 75
+    Min: 100
+    Max: 200
   EnemySpawnDelay:
     Min: 0.1
     Max: 0.5
   EnemySpeed:
-    Min: 2.5
-    Max: 5
-  EnemyHealth: 2
+    Min: 1
+    Max: 2.5
+  EnemyHealth: 5

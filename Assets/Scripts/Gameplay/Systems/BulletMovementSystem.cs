@@ -26,6 +26,7 @@ namespace Game.Gameplay.Systems
             _levelBounds = levelBounds;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();
@@ -38,7 +39,7 @@ namespace Game.Gameplay.Systems
         {
             NativeArray<float3> directionArray = new NativeArray<float3>(Entities.Count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
             NativeArray<float> speedArray = new NativeArray<float>(Entities.Count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
-            TransformAccessArray array = new TransformAccessArray(Entities.Select(entity => entity.transform).ToArray());
+            TransformAccessArray transformArray = new TransformAccessArray(Entities.Select(entity => entity.transform).ToArray());
             
             for (int i = 0; i < Entities.Count; i++)
             {
@@ -53,7 +54,7 @@ namespace Game.Gameplay.Systems
                 DeltaTime = Time.deltaTime
             };
             
-            JobHandle handle = job.Schedule(array);
+            JobHandle handle = job.Schedule(transformArray);
             
             handle.Complete();
 
@@ -67,7 +68,7 @@ namespace Game.Gameplay.Systems
 
             directionArray.Dispose();
             speedArray.Dispose();
-            array.Dispose();
+            transformArray.Dispose();
         }
     }
 }

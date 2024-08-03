@@ -1,4 +1,5 @@
-﻿using Game.Core.Implementation;
+﻿using System.Runtime.CompilerServices;
+using Game.Core.Implementation;
 using Game.Infrastructure.ObjectPoolService;
 using VContainer;
 
@@ -21,6 +22,7 @@ namespace Game.Gameplay.Systems
             _objectPoolService.ReleaseAll();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();

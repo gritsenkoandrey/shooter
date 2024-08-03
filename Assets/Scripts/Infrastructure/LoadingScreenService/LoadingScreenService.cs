@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using TMPro;
+using Game.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Infrastructure.LoadingScreenService
 {
     public sealed class LoadingScreenService : MonoBehaviour, ILoadingScreenService
     {
-        [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private TextMeshProUGUI _loadingText;
-        [SerializeField] private float _durationCanvas;
-        [SerializeField] private float _durationPrintText;
+        [SerializeField] private Image _fillImage;
 
         private readonly CancellationTokenSource _cancellationTokenSource = new();
-        private readonly StringBuilder _stringBuilder = new ();
+        
+        private bool _isShow;
 
         private void OnDestroy()
         {
@@ -25,35 +23,52 @@ namespace Game.Infrastructure.LoadingScreenService
 
         void ILoadingScreenService.Show()
         {
+            if (_isShow)
+            {
+                return;
+            }
+
             gameObject.SetActive(true);
-            
-            _loadingText.text = string.Empty;
-            _canvasGroup.alpha = 1f;
+            _isShow = true;
+            ShowAnimation().Forget();
         }
 
-        void ILoadingScreenService.Hide() => ShowAnimation().Forget();
+        void ILoadingScreenService.Hide()
+        {
+            _isShow = false;
+        }
 
         private async UniTaskVoid ShowAnimation()
         {
             try
             {
-                int index = 0;
-                float elapsed = 0f;
-
-                while (index < 4)
+                float fillAmount = 0f;
+                
+                _fillImage.fillAmount = fillAmount;
+                
+                while (_isShow)
                 {
-                    UpdateText(ref index);
-                    
-                    await UniTask.Delay(TimeSpan.FromSeconds(_durationPrintText), cancellationToken: _cancellationTokenSource.Token);
-                }
-
-                while (elapsed < _durationCanvas)
-                {
-                    elapsed += Time.deltaTime;
-                    _canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / _durationCanvas);
-                    
                     await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: _cancellationTokenSource.Token);
+
+                    float speed = Mathematics.Remap(0.9f, 0f, 0f, 1f, fillAmount);
+
+                    fillAmount += speed * Time.deltaTime;
+                    
+                    _fillImage.fillAmount = Mathf.Clamp01(fillAmount);
                 }
+                
+                while (fillAmount < 1f)
+                {
+                    await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: _cancellationTokenSource.Token);
+                    
+                    float speed = Mathematics.Remap(1f, 0f, 1f, 2.5f, fillAmount);
+                    
+                    fillAmount += speed * Time.deltaTime;
+                    
+                    _fillImage.fillAmount = Mathf.Clamp01(fillAmount);
+                }
+
+                await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: _cancellationTokenSource.Token);
                 
                 gameObject.SetActive(false);
             }
@@ -61,22 +76,6 @@ namespace Game.Infrastructure.LoadingScreenService
             {
                 Debug.Log(exception.Message);
             }
-        }
-
-        private void UpdateText(ref int index)
-        {
-            _stringBuilder.Clear();
-            
-            int dotCount = index % 4;
-            
-            for (int i = 0; i < dotCount; i++)
-            {
-                _stringBuilder.Append('.');
-            }
-            
-            _loadingText.text = _stringBuilder.ToString();
-            
-            index++;
         }
     }
 }

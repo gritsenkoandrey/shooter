@@ -21,6 +21,7 @@ namespace Game.Gameplay.Systems
             _levelBounds = levelBounds;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();

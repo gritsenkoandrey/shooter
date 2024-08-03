@@ -10,8 +10,7 @@ namespace Game.Gameplay.Jobs
     {
         [ReadOnly] public NativeArray<CollisionStruct> BulletArray;
         [ReadOnly] public NativeArray<CollisionStruct> EnemyArray;
-        
-        public NativeArray<int> CollisionArray;
+        [WriteOnly] public NativeArray<int> CollisionArray;
 
         void IJobParallelFor.Execute(int index)
         {

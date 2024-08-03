@@ -4,6 +4,7 @@
     {
         float Horizontal { get;}
         float Vertical { get; }
+        void Enable(bool isEnable);
         void Execute();
     }
 }

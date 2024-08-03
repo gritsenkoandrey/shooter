@@ -23,6 +23,7 @@ namespace Game.Gameplay.Systems
             _objectPoolService = objectPoolService;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();

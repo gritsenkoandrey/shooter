@@ -1,4 +1,5 @@
-﻿using Game.Core.Implementation;
+﻿using System.Runtime.CompilerServices;
+using Game.Core.Implementation;
 using Game.Infrastructure.InputService;
 using VContainer;
 
@@ -14,6 +15,7 @@ namespace Game.Gameplay.Systems
             _inputService = inputService;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();

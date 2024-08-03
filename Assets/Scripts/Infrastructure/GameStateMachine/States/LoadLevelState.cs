@@ -43,25 +43,20 @@ namespace Game.Infrastructure.GameStateMachine.States
         void IEnterLoadState<string>.Enter(string sceneName)
         {
             _loadingScreenService.Show();
-            
             _assetService.CleanUp();
             _screenService.CleanUp();
             _levelService.CleanUp();
-            
             _sceneLoadService.Load(sceneName, CreateLevel);
         }
 
         void IExitState.Exit()
         {
-            _loadingScreenService.Hide();
         }
         
         private void CreateLevel()
         {
             Level level = _gameFactory.CreateLevel();
-            
             _gameFactory.CreatePlayer(level.PlayerSpawnPoint.position, Quaternion.identity, level.transform);
-            
             _gameStateMachine.Enter<GameState>();
         }
     }

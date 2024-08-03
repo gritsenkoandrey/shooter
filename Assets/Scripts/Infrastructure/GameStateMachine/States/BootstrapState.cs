@@ -1,4 +1,5 @@
-﻿using Game.Infrastructure.SceneLoadService;
+﻿using Game.Infrastructure.LoadingScreenService;
+using Game.Infrastructure.SceneLoadService;
 using VContainer;
 
 namespace Game.Infrastructure.GameStateMachine.States
@@ -8,6 +9,7 @@ namespace Game.Infrastructure.GameStateMachine.States
         private readonly IGameStateMachine _gameStateMachine;
         
         private ISceneLoadService _sceneLoadService;
+        private ILoadingScreenService _loadingScreenService;
 
         public BootstrapState(IGameStateMachine gameStateMachine)
         {
@@ -15,13 +17,15 @@ namespace Game.Infrastructure.GameStateMachine.States
         }
 
         [Inject]
-        private void Construct(ISceneLoadService sceneLoadService)
+        private void Construct(ISceneLoadService sceneLoadService, ILoadingScreenService loadingScreenService)
         {
             _sceneLoadService = sceneLoadService;
+            _loadingScreenService = loadingScreenService;
         }
 
         void IEnterState.Enter()
         {
+            _loadingScreenService.Show();
             _sceneLoadService.Load(SceneName.Bootstrap, Next);
         }
 

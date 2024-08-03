@@ -1,4 +1,6 @@
 ﻿using Game.Gameplay.Models;
+using Game.Infrastructure.InputService;
+using Game.Infrastructure.LoadingScreenService;
 using Game.Infrastructure.SceneLoadService;
 using Game.Scopes;
 using Game.UI;
@@ -14,6 +16,8 @@ namespace Game.Infrastructure.GameStateMachine.States
         
         private IScreenService _screenService;
         private ISceneLoadService _sceneLoadService;
+        private ILoadingScreenService _loadingScreenService;
+        private IInputService _inputService;
         private PlayerHealth _playerHealth;
         private EnemyKillCounter _enemyKillCounter;
 
@@ -23,15 +27,20 @@ namespace Game.Infrastructure.GameStateMachine.States
         }
 
         [Inject]
-        private void Construct(IScreenService screenService, ISceneLoadService sceneLoadService)
+        private void Construct(IScreenService screenService, ISceneLoadService sceneLoadService, 
+            ILoadingScreenService loadingScreenService, IInputService inputService)
         {
             _screenService = screenService;
             _sceneLoadService = sceneLoadService;
+            _loadingScreenService = loadingScreenService;
+            _inputService = inputService;
         }
 
         void IEnterState.Enter()
         {
             _screenService.CreateScreen(ScreenType.Game);
+            _loadingScreenService.Hide();
+            _inputService.Enable(true);
 
             IObjectResolver resolver = LifetimeScope.Find<GameScope>().Container;
             
@@ -44,9 +53,9 @@ namespace Game.Infrastructure.GameStateMachine.States
 
         void IExitState.Exit()
         {
+            _inputService.Enable(false);
             _playerHealth.OnChangeHealth -= OnChangeHealth;
             _enemyKillCounter.OnChangeKills -= OnChangeKills;
-
             _playerHealth = null;
             _enemyKillCounter = null;
         }

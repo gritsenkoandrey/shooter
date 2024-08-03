@@ -1,5 +1,4 @@
-﻿using Game.Infrastructure.LoadingScreenService;
-using Game.UI;
+﻿using Game.UI;
 using Game.UI.ScreenService;
 using VContainer;
 
@@ -10,7 +9,6 @@ namespace Game.Infrastructure.GameStateMachine.States
         private readonly IGameStateMachine _gameStateMachine;
         
         private IScreenService _screenService;
-        private ILoadingScreenService _loadingScreenService;
 
         public ResultState(IGameStateMachine gameStateMachine)
         {
@@ -18,10 +16,9 @@ namespace Game.Infrastructure.GameStateMachine.States
         }
 
         [Inject]
-        private void Construct(IScreenService screenService, ILoadingScreenService loadingScreenService)
+        private void Construct(IScreenService screenService)
         {
             _screenService = screenService;
-            _loadingScreenService = loadingScreenService;
         }
 
         void IEnterLoadState<bool>.Enter(bool isWin)
@@ -34,7 +31,6 @@ namespace Game.Infrastructure.GameStateMachine.States
             {
                 screen.OnClose -= Next;
                 
-                _loadingScreenService.Show();
                 _gameStateMachine.Enter<LoadLevelState, string>(SceneName.Game);
             }
         }

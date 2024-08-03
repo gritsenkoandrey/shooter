@@ -22,6 +22,7 @@ namespace Game.Gameplay.Systems
             _levelService = levelService;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         protected override void OnUpdate()
         {
             base.OnUpdate();
