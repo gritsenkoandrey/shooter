@@ -1,8 +1,6 @@
-﻿using Game.Gameplay.Jobs;
+﻿using Game.Infrastructure.JobService;
 using Game.Infrastructure.ObjectPoolService;
 using Game.Infrastructure.StaticDataService;
-using Unity.Jobs;
-using UnityEngine.Jobs;
 using VContainer;
 
 namespace Game.Infrastructure.GameStateMachine.States
@@ -13,6 +11,7 @@ namespace Game.Infrastructure.GameStateMachine.States
 
         private IStaticDataService _staticDataService;
         private IObjectPoolService _objectPoolService;
+        private IJobService _jobService;
 
         public PrepareState(IGameStateMachine gameStateMachine)
         {
@@ -20,31 +19,24 @@ namespace Game.Infrastructure.GameStateMachine.States
         }
 
         [Inject]
-        private void Construct(IStaticDataService staticDataService, IObjectPoolService objectPoolService)
+        private void Construct(IStaticDataService staticDataService, IObjectPoolService objectPoolService, IJobService jobService)
         {
             _staticDataService = staticDataService;
             _objectPoolService = objectPoolService;
+            _jobService = jobService;
         }
 
         void IEnterState.Enter()
         {
             _staticDataService.Load();
             _objectPoolService.Init();
-            
-            WarmUpJob();
+            _jobService.Init();
             
             _gameStateMachine.Enter<LoadLevelState, string>(SceneName.Game);
         }
 
         void IExitState.Exit()
         {
-        }
-        
-        private static void WarmUpJob()
-        {
-            IJobParallelForExtensions.EarlyJobInit<BulletCollisionJob>();
-            IJobParallelForTransformExtensions.EarlyJobInit<BulletMovementJob>();
-            IJobParallelForTransformExtensions.EarlyJobInit<EnemyMovementJob>();
         }
     }
 }

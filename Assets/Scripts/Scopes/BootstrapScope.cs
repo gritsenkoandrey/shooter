@@ -7,6 +7,7 @@ using Game.Infrastructure.Factories.StateMachineFactory;
 using Game.Infrastructure.Factories.SystemFactory;
 using Game.Infrastructure.GameStateMachine.States;
 using Game.Infrastructure.InputService;
+using Game.Infrastructure.JobService;
 using Game.Infrastructure.LevelService;
 using Game.Infrastructure.LoadingScreenService;
 using Game.Infrastructure.ObjectPoolService;
@@ -48,6 +49,7 @@ namespace Game.Scopes
             builder.Register<IAssetService, AssetService>(Lifetime.Singleton);
             builder.Register<IStaticDataService, StaticDataService>(Lifetime.Singleton);
             builder.Register<ILevelService, LevelService>(Lifetime.Singleton);
+            builder.Register<IJobService, JobService>(Lifetime.Singleton);
             builder.Register<IStateMachineFactory, StateMachineFactory>(Lifetime.Singleton);
             builder.Register<IScreenFactory, ScreenFactory>(Lifetime.Singleton);
             builder.Register<ISystemFactory, SystemFactory>(Lifetime.Singleton);
